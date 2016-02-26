@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 23:55:46 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/02/24 12:35:51 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/02/26 04:23:09 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,26 @@
 #include "fdf.h"
 #include <stdio.h>
 
-int		get_lines(int fd, t_list **lst)
+static int	cleanup(t_list **lst, t_map **map)
+{
+	t_list	*next;
+
+	while (*lst)
+	{
+		next = (*lst)->next;
+		ft_memdel(&(*lst)->content);
+		ft_memdel((void **)lst);
+		*lst = next;
+	}
+	if (map && *map)
+	{
+		ft_memdel((void **)&(*map)->vectors);
+		ft_memdel((void **)map);
+	}
+	return (0);
+}
+
+static int	get_lines(int fd, t_list **lst)
 {
 	t_list	*temp;
 	int		expected;
@@ -27,68 +46,56 @@ int		get_lines(int fd, t_list **lst)
 	{
 		if (expected == -1)
 			expected = (int)ft_countwords(line, ' ');
-		else if (expected != (int)ft_countwords(line, ' '))
-		{
-			ret = -1;
-			break ;
-		}
 		temp = ft_lstnew(line, ft_strlen(line) + 1);
-		ft_strdel(&line);
-		if (temp == NULL)
-		{
-			ret = -1;
-			break ;
-		}
+		if ((temp) == NULL)
+			return (cleanup(lst, NULL));
 		ft_lstadd(lst, temp);
+		if (expected != (int)ft_countwords(line, ' '))
+			return (cleanup(lst, NULL));
+		ft_strdel(&line);
 	}
-	if (expected == -1) // read nothing
-		return (0);
-	if (ret == -1)
-	{
-		//ft_lstdel(lst, strdel);
-		//TODO: delete our list if it fails part-way
-		return (0);
-	}
+	if (expected == -1 || ret == -1)
+		return (cleanup(lst, NULL));
 	ft_lstrev(lst);
 	return (1);
 }
 
-int		read_file(int fd, t_map **m)
+static int	populate_map(t_map **m, t_list *list)
 {
-	t_list		*lines;
-	int			x;
-	int			y;
-	char		**split;
-	t_map		*map;
-	t_vector	*v;
-	lines = NULL;
-	if (!(get_lines(fd, &lines)))
-		return (0);
-	map = ft_memalloc(sizeof(t_map));
-	map->width = ft_countwords(lines->content, ' ');
-	map->height = ft_lstcount(lines);
-	map->vectors = ft_memalloc(sizeof(t_vector) * map->width * map->height);
+	t_list	*lst;
+	char	**split;
+	int		x;
+	int		y;
+
+	lst = list;
 	y = 0;
-	while (y < map->height)
+	while (y < (*m)->height)
 	{
 		x = 0;
-		split = ft_strsplit(lines->content, ' ');
-		while (x < map->width)
+		if ((split = ft_strsplit(lst->content, ' ')) == NULL)
+			return (cleanup(&list, m));
+		while (x < (*m)->width)
 		{
-			v = &map->vectors[y * map->width + x];
-			v->x = x;
-			v->y = y;
-			// TODO: error handling
-			v->z = ft_atoi(split[x]);
-			// TODO: colors
-			v->w = 1;
-			v->color = 0xFFFFFF;
+			(*m)->vectors[y * (*m)->width + x] = get_vector(x, y, split[x]);
 			x++;
 		}
-		//TODO: free split
-		lines = lines->next;
+		ft_splitdel(&split);
+		lst = lst->next;
 		y++;
 	}
-	*m = map;
+	cleanup(&list, NULL);
 	return (1);
+}
+
+int			read_file(int fd, t_map **m)
+{
+	t_list	*lst;
+
+	lst = NULL;
+	if (!(get_lines(fd, &lst)))
+		return (0);
+	*m = get_map(ft_countwords(lst->content, ' '), ft_lstcount(lst));
+	if (*m == NULL)
+		return (cleanup(&lst, m));
+	return (populate_map(m, lst));
 }

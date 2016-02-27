@@ -6,7 +6,7 @@
 #    By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/22 23:12:10 by pbondoer          #+#    #+#              #
-#    Updated: 2016/02/22 23:30:03 by pbondoer         ###   ########.fr        #
+#    Updated: 2016/02/26 08:12:47 by pbondoer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,17 @@ NAME	= fdf
 
 # src / obj files
 SRC		= main.c \
-		  reader.c
+		  reader.c \
+		  map.c \
+		  window.c \
+		  draw.c \
+		  matrix.c
 
 OBJ		= $(addprefix $(OBJDIR),$(SRC:.c=.o))
 
 # compiler
 CC		= clang
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g
 
 # mlx library
 MLX		= ./miniLibX/
@@ -45,7 +49,7 @@ obj:
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)%.o:$(SRCDIR)%.c
-	$(CC) $(CFLAGS) $(FT_INC) $(MLX_INC) -I $(INCDIR) -o $@ -c $<
+	$(CC) $(CFLAGS) $(MLX_INC) $(FT_INC) -I $(INCDIR) -o $@ -c $<
 
 $(FT_LIB):
 	make -C $(FT)
@@ -64,6 +68,5 @@ clean:
 fclean: clean
 	rm -rf $(NAME)
 	make -C $(FT) fclean
-	make -C $(MLX) fclean
 
 re: fclean all

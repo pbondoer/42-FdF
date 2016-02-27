@@ -6,45 +6,40 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/23 07:42:21 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/02/24 12:25:42 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/02/26 08:00:05 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
 #include "fdf.h"
 #include "libft.h"
+#include "mlx.h"
 #include <stdio.h>
+#include <fcntl.h>
 
 int		main(int argc, char **argv)
 {
 	t_map	*map;
+	t_mlx	*mlx;
 	int		fd;
 
 	if (argc < 2)
 	{
-		ft_putstr("error: not enough arguments\n");
+		printf("error: not enough arguments\n");
 		return (1);
 	}
 	fd = open(argv[1], O_RDONLY);
-	printf("fd: %d\n", fd);
+	printf("opened %s with fd %d\n", argv[1], fd);
 	if (fd < 0 || !read_file(fd, &map))
 	{
-		ft_putstr("error: invalid file");
+		printf("error: invalid file\n");
 		return (1);
 	}
-	ft_putstr("read\n");
-	int x = 0;
-	int y = 0;
-	while (x < map->width)
+	if ((mlx = init(512, 512, ft_strjoin("FdF - ", argv[1]))) == NULL)
 	{
-		y = 0;
-		while (y < map->height)
-		{
-			t_vector	*v;
-			v = &map->vectors[y * map->width + x];
-			y++;
-		}
-		x++;
+		printf("error: mlx couldn't init\n");
+		return (1);
 	}
+	render(mlx, map);
+	mlx_loop(mlx->mlx);
 	return (0);
 }

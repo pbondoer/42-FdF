@@ -6,34 +6,27 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 23:59:07 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/02/26 08:13:53 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/03/01 05:56:36 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-typedef struct		s_cam
-{
-	int			r;
-	int			l;
-	int			t;
-	int			b;
-	int			f;
-	int			n;
-}					t_cam;
 typedef struct		s_mlx
 {
 	void		*mlx;
 	void		*window;
+	int			width;
+	int			height;
 }					t_mlx;
 typedef struct		s_vector
 {
-	int			x;
-	int			y;
-	int			z;
-	int			w;
-	int			color;
+	double		x;
+	double		y;
+	double		z;
+	double		w;
+	double		color;
 }					t_vector;
 typedef struct		s_map
 {
@@ -46,5 +39,6 @@ t_vector			*get_vector(int x, int y, char *str);
 t_map				*get_map(int width, int height);
 t_mlx				*init(int x, int y, char *title);
 void				render(t_mlx *mlx, t_map *map);
-t_vector			ortho(t_vector p, t_cam c);
+t_vector			rotate(t_vector p, t_vector r);
+t_vector			ortho(t_vector p);
 #endif

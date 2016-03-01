@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/24 13:43:36 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/02/24 16:42:34 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/03/01 07:01:57 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ t_vector	*get_vector(int x, int y, char *str)
 	v = ft_memalloc(sizeof(t_vector));
 	if (v == NULL)
 		return (NULL);
-	v->x = x;
-	v->y = y;
-	v->z = ft_atoi(str);
-	v->w = 1;
+	v->x = (double)x;
+	v->y = (double)y;
+	v->z = (double)ft_atoi(str);
+	v->w = (double)1;
 	// TODO: error handling
 	// TODO: color handling (default to 0xFFFFFF)
-	v->color = 0xFFFFFF;
+	v->color = (v->x == 0 ? 0xFF0000 : (v->y == 0 ? 0xFFFF00 : 0xFFFFFF));
 	return (v);
 }
 

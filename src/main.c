@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/23 07:42:21 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/03/01 07:50:20 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/03/02 15:46:02 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 #include "mlx.h"
 #include <stdio.h>
 #include <fcntl.h>
+
+int		key_down(int code, t_mlx *mlx)
+{
+	printf("got key: %d\n", code);
+	render(mlx);
+	return (0);
+}
 
 int		main(int argc, char **argv)
 {
@@ -39,7 +46,11 @@ int		main(int argc, char **argv)
 		printf("error: mlx couldn't init\n");
 		return (1);
 	}
-	render(mlx, map);
+	mlx->map = map;
+	render(mlx);
+	mlx_key_hook(mlx->window, key_down, mlx);
 	mlx_loop(mlx->mlx);
+	mlx_do_key_autorepeaton(mlx->window);
 	return (0);
 }
+

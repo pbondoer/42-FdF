@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/23 07:42:21 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/03/02 15:46:02 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/03/02 17:36:47 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,15 @@
 int		key_down(int code, t_mlx *mlx)
 {
 	printf("got key: %d\n", code);
+	mlx->cam->x += 0.1;
 	render(mlx);
 	return (0);
+}
+
+int		die(char *reason)
+{
+	ft_putendl(reason);
+	return (1);
 }
 
 int		main(int argc, char **argv)
@@ -30,27 +37,19 @@ int		main(int argc, char **argv)
 	int		fd;
 
 	if (argc < 2)
-	{
-		printf("error: not enough arguments\n");
-		return (1);
-	}
+		return die("error: not enough arguments");
 	fd = open(argv[1], O_RDONLY);
 	printf("opened %s with fd %d\n", argv[1], fd);
 	if (fd < 0 || !read_file(fd, &map))
-	{
-		printf("error: invalid file\n");
-		return (1);
-	}
-	if ((mlx = init(512, 512, ft_strjoin("FdF - ", argv[1]))) == NULL)
-	{
-		printf("error: mlx couldn't init\n");
-		return (1);
-	}
+		return die("error: invalid file");
+	if ((mlx = init(ft_strjoin("FdF - ", argv[1]))) == NULL)
+		return die("error: mlx couldn't init");
 	mlx->map = map;
+	mlx->cam->x = 0.0;
+	mlx->cam->y = 0.0;
 	render(mlx);
-	mlx_key_hook(mlx->window, key_down, mlx);
+	mlx_hook(mlx->window, 2, 3, key_down, mlx);
 	mlx_loop(mlx->mlx);
-	mlx_do_key_autorepeaton(mlx->window);
 	return (0);
 }
 

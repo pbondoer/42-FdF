@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/26 05:33:42 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/03/01 05:38:11 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/03/02 17:32:53 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,27 @@
 #include "mlx.h"
 #include "fdf.h"
 
-t_mlx		*cleanup(t_mlx *mlx)
+t_mlx		*mlxdel(t_mlx *mlx)
 {
 	if (mlx->window != NULL)
 		mlx_destroy_window(mlx->mlx, mlx->window);
+	if (mlx->cam != NULL)
+		ft_memdel((void **)&mlx->cam);
+	ft_memdel((void **)&mlx);
 	return (NULL);
 }
 
-t_mlx		*init(int x, int y, char *title)
+t_mlx		*init(char *title)
 {
 	t_mlx	*mlx;
 
 	if ((mlx = ft_memalloc(sizeof(t_mlx))) == NULL)
 		return (NULL);
-	if ((mlx->mlx = mlx_init()) == NULL)
-		return (NULL);
-	if ((mlx->window = mlx_new_window(mlx->mlx, x, y, title)) == NULL)
-		return (cleanup(mlx));
-	mlx->width = x;
-	mlx->height = x;
+	if ((mlx->mlx = mlx_init()) == NULL ||
+		(mlx->window = mlx_new_window(mlx->mlx, WIN_WIDTH,
+			WIN_HEIGHT, title)) == NULL ||
+		(mlx->cam = ft_memalloc(sizeof(t_cam))) == NULL)
+		return (mlxdel(mlx));
+	mlx->cam->scale = 16;
 	return (mlx);
 }

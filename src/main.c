@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/23 07:42:21 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/11 00:37:48 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/12 01:36:17 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ int		main(int argc, char **argv)
 	if ((mlx = init(ft_strjoin("FdF - ", argv[1]))) == NULL)
 		return die("error: mlx couldn't init");
 	mlx->map = map;
-	mlx->cam->x = 0.5;
-	mlx->cam->y = 0.5;
-	mlx->cam->scale = 32;
-	mlx->cam->offsetX = WIN_WIDTH / 2;
-	mlx->cam->offsetY = WIN_HEIGHT / 2;
 	render(mlx);
+	mlx_hook(mlx->window, 4, 0, hook_mousedown, mlx);
+	mlx_hook(mlx->window, 5, 0, hook_mouseup, mlx);
+	mlx_hook(mlx->window, 6, 0, hook_mousemove, mlx);
 //	mlx_hook(mlx->window, 2, 3, key_down, mlx);
 	mlx_loop(mlx->mlx);
 	return (0);

@@ -6,7 +6,7 @@
 #    By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/22 23:12:10 by pbondoer          #+#    #+#              #
-#    Updated: 2016/02/26 08:12:47 by pbondoer         ###   ########.fr        #
+#    Updated: 2016/05/11 23:43:42 by pbondoer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRC		= main.c \
 		  map.c \
 		  window.c \
 		  draw.c \
-		  matrix.c
+		  matrix.c \
+		  mouse.c
 
 OBJ		= $(addprefix $(OBJDIR),$(SRC:.c=.o))
 

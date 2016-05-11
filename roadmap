@@ -7,14 +7,16 @@ Features
 
 To-do soon
 -------------------------------------------------------------------------------
-* FIX: differentiate between vectors and screen points in code
+* Mouse controls
+* FIX: differentiate between vectors and screen points in code (causes infinite
+       rendering!)
 * Image support (for buffering)
 * Z-buffer (activatable)
 * Color modes: file, height gradient, z-buffer
 * View modes: point map, wireframe, filled
 * Optional depth shader (adds z-shadow to pixels)
-* Mouse controls
 * Multithreaded computing
+* Anti-alias support
 
 To-do later
 -------------------------------------------------------------------------------

@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/24 13:43:36 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/11 00:11:01 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/11 23:14:07 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_vector	*get_vector(int x, int y, char *str)
 	v->z = (double)ft_atoi(str);
 	// TODO: error handling
 	// TODO: color handling (default to 0xFFFFFF)
-	v->color = (v->x == 0 ? 0xFF0000 : (v->y == 0 ? 0xFFFF00 : 0xFFFFFF));
+	v->color = ((int)v->x % 2 == 0 ? 0xFF0000 : ((int)v->y % 2 == 0 ? 0x00FF00 : 0x0000FF));
 	return (v);
 }
 

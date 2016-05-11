@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/26 06:06:04 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/11 02:12:15 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/12 00:25:30 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,17 @@ void		line(t_mlx *mlx, t_vector p1, t_vector p2)
 	double startx = p1.x;
 	double starty = p1.y;
 	double percent = 0.0f;
+
+	// temporary fix
+	p1.x = (int)p1.x;
+	p2.x = (int)p2.x;
+	p1.y = (int)p1.y;
+	p2.y = (int)p2.y;
 	
 	while ((int)p1.x != (int)p2.x || (int)p1.y != (int)p2.y)
 	{
 		percent = (dx > dy ? ft_ilerp((int)p1.x, (int)startx, (int)p2.x) : ft_ilerp((int)p1.y, (int)starty, (int)p2.y));
-		printf("%f; %f - %f; %f === %f\n", p1.x, p1.y, p2.x, p2.y, percent);
+		//printf("%f; %f - %f; %f === %f\n", p1.x, p1.y, p2.x, p2.y, percent);
 		mlx_pixel_put(mlx->mlx, mlx->window, (int)p1.x, (int)p1.y, clerp(p1.color, p2.color, percent));
 		e2 = err;
 		if (e2 > -dx)

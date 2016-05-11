@@ -1,0 +1,23 @@
+Features
+-------------------------------------------------------------------------------
+* FDF filetype support
+* 3D rotations
+* Camera controls (zoom, translate)
+* Color interpolation
+
+To-do soon
+-------------------------------------------------------------------------------
+* FIX: differentiate between vectors and screen points in code
+* Image support (for buffering)
+* Z-buffer (activatable)
+* Color modes: file, height gradient, z-buffer
+* View modes: point map, wireframe, filled
+* Optional depth shader (adds z-shadow to pixels)
+* Mouse controls
+* Multithreaded computing
+
+To-do later
+-------------------------------------------------------------------------------
+* OpenCL version for super-fast computing
+* Different renderer for faster FPS
+* Other projections

@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/24 13:43:36 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/03/02 18:51:50 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/11 00:11:01 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 t_vector	project_vector(t_vector v, t_mlx *mlx)
 {
 	v.x -= (double)mlx->map->width / 2.0;
-	v.y -= (double)mlx->map->width / 2.0;
+	v.y -= (double)mlx->map->height / 2.0;
 	v.z -= 5; // TODO: z offset
 	v = rotate(v, mlx->cam);
 	v.x *= mlx->cam->scale;
 	v.y *= mlx->cam->scale;
-	v.x += WIN_WIDTH / 2;
-	v.y += WIN_HEIGHT / 2;
+	v.x += mlx->cam->offsetX;
+	v.y += mlx->cam->offsetY;
 	return (v);
 }
 

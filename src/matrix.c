@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/26 08:04:43 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/03/02 17:35:37 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/11 00:15:04 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,6 @@ t_vector	rotate(t_vector p, t_cam *r)
 	z = v.z;
 	v.y = cos(r->x) * y - sin(r->x) * z;
 	v.z = sin(r->x) * y + cos(r->x) * z;
-	x = v.x;
-	y = v.y;
-	v.x = cos(r->z) * x - sin(r->z) * y;
-	v.y = sin(r->z) * x + cos(r->z) * y;
 	v.color = p.color;
 	return (v);
 }

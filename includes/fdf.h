@@ -6,21 +6,23 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 23:59:07 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/03/02 18:37:27 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/11 01:40:23 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-# define WIN_HEIGHT	420
-# define WIN_WIDTH	420
+# define WIN_WIDTH	1280
+# define WIN_HEIGHT	720
 
 typedef struct		s_cam
 {
+	double		offsetX;
+	double		offsetY;
 	double		x;
 	double		y;
-	double		z;
 	int			scale;
+	double		**matrix;
 }					t_cam;
 typedef struct		s_vector
 {

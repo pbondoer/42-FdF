@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 22:39:22 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/12 02:13:27 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/20 01:36:42 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 int		hook_mousedown(int button, int x, int y, t_mlx *mlx)
 {
+	if (y < 0)
+		return (0);
 	printf("mouse down, button %d: %d %d\n", button, x, y);
 	mlx->mouse->isdown |= 1 << button;
 	return (0);

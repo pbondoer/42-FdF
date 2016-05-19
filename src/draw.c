@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/26 06:06:04 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/19 05:40:48 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/19 06:32:01 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ int			clerp(int c1, int c2, double p)
 	int r;
 	int g;
 	int b;
+
+	if (c1 == c2)
+		return (c1);
 
 	r = ft_lerpi((c1 >> 16) & 0xFF, (c2 >> 16) & 0xFF, p);
 	g = ft_lerpi((c1 >> 8) & 0xFF, (c2 >> 8) & 0xFF, p);
@@ -49,6 +52,9 @@ void		line(t_mlx *mlx, t_vector p1, t_vector p2)
 	
 	while ((int)p1.x != (int)p2.x || (int)p1.y != (int)p2.y)
 	{
+		if ((p1.x < 0 || p1.x >= WIN_WIDTH || p1.y < 0 || p1.y >= WIN_HEIGHT)
+			&& (p2.x < 0 || p2.x >= WIN_WIDTH || p2.y < 0 || p2.y >= WIN_HEIGHT))
+			break ;
 		percent = (dx > dy ? ft_ilerp((int)p1.x, (int)startx, (int)p2.x) : ft_ilerp((int)p1.y, (int)starty, (int)p2.y));
 		//printf("%f; %f - %f; %f === %f\n", p1.x, p1.y, p2.x, p2.y, percent);
 		//mlx_pixel_put(mlx->mlx, mlx->window, (int)p1.x, (int)p1.y, clerp(p1.color, p2.color, percent));

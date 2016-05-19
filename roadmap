@@ -22,6 +22,7 @@ To-do soon
 * Optional depth shader (adds z-shadow to pixels)
 * Multithreaded computing
 * Anti-alias support
+* PPM screenshoting
 
 To-do later
 -------------------------------------------------------------------------------

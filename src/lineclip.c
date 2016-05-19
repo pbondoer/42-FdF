@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   image.c                                            :+:      :+:    :+:   */
+/*   lineclip.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/05/19 04:21:40 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/19 06:32:20 by pbondoer         ###   ########.fr       */
+/*   Created: 2016/05/19 07:45:40 by pbondoer          #+#    #+#             */
+/*   Updated: 2016/05/19 07:47:42 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
-#include <stdio.h>
-
-void	set_pixel(t_image *image, int x, int y, int color)
+int		region(int x, int y)
 {
-	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
-		return ;
-	*(int *)(image->ptr + ((x + y * WIN_WIDTH) * image->bpp / 8)) = color;
-}
+	int c;
 
-void	clear_image(t_image *image)
-{
-	ft_bzero(image->ptr, WIN_WIDTH * WIN_HEIGHT * image->bpp / 8);
+	c = 0;
+	if (y >= WIN_HEIGHT)
+		c |= 1;
+	else if (y < 0)
+		c |= 2;
+	if (x >= WIN_WIDTH)
+		c |= 4;
+	else if (x < 0)
+		c |= 8;
+	return (c);
 }

@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 23:59:07 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/12 01:17:59 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/19 05:30:21 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,19 @@ typedef struct		s_mouse
 	int			lastx;
 	int			lasty;
 }					t_mouse;
+typedef struct		s_image
+{
+	void		*image;
+	char		*ptr;
+	int			bpp;
+	int			stride;
+	int			endian;
+}					t_image;
 typedef struct		s_mlx
 {
 	void		*mlx;
 	void		*window;
+	t_image		*image;
 	t_map		*map;
 	t_cam		*cam;
 	t_mouse		*mouse;
@@ -64,4 +73,6 @@ t_vector			project_vector(t_vector p, t_mlx *mlx);
 int					hook_mousemove(int x, int y, t_mlx *mlx);
 int					hook_mousedown(int button, int x, int y, t_mlx *mlx);
 int					hook_mouseup(int button, int x, int y, t_mlx *mlx);
+void				set_pixel(t_image *image, int x, int y, int color);
+void				clear_image(t_image *image);
 #endif

@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/26 06:06:04 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/12 00:25:30 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/19 05:40:48 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void		line(t_mlx *mlx, t_vector p1, t_vector p2)
 	{
 		percent = (dx > dy ? ft_ilerp((int)p1.x, (int)startx, (int)p2.x) : ft_ilerp((int)p1.y, (int)starty, (int)p2.y));
 		//printf("%f; %f - %f; %f === %f\n", p1.x, p1.y, p2.x, p2.y, percent);
-		mlx_pixel_put(mlx->mlx, mlx->window, (int)p1.x, (int)p1.y, clerp(p1.color, p2.color, percent));
+		//mlx_pixel_put(mlx->mlx, mlx->window, (int)p1.x, (int)p1.y, clerp(p1.color, p2.color, percent));
+		set_pixel(mlx->image, (int)p1.x, (int)p1.y, clerp(p1.color, p2.color, percent));
 		e2 = err;
 		if (e2 > -dx)
 		{
@@ -74,22 +75,24 @@ void		render(t_mlx *mlx)
 	t_map		*map;
 
 	map = mlx->map;
-	mlx_clear_window(mlx->mlx, mlx->window);
+	//mlx_clear_window(mlx->mlx, mlx->window);
+	clear_image(mlx->image);
 	x = 0;
 	while (x < map->width)
 	{
 		y = 0;
 		while (y < map->height)
 		{
-			printf("%d, %d\n", x, y);
 			v = project_vector(vector_at(map, x, y), mlx);
 			if (x + 1 < map->width)
 				line(mlx, v, project_vector(vector_at(map, x + 1, y), mlx));
 			if (y + 1 < map->height)
 				line(mlx, v, project_vector(vector_at(map, x, y + 1), mlx));
-			mlx_pixel_put(mlx->mlx, mlx->window, (int)v.x, (int)v.y, v.color);
+			//mlx_pixel_put(mlx->mlx, mlx->window, (int)v.x, (int)v.y, v.color);
 			y++;
 		}
 		x++;
 	}
+	//set_pixel(mlx, 0, 0, 0xFFAABB);
+	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
 }

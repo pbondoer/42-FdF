@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 22:39:22 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/12 01:22:10 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/12 02:13:27 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,14 @@ int		hook_mousemove(int x, int y, t_mlx *mlx)
 	{
 		mlx->cam->x += (mlx->mouse->lasty - y) / 200.0f;
 		mlx->cam->y -= (mlx->mouse->lastx - x) / 200.0f;
-		render(mlx);
 	}
-	//TODO: only render if changed
+	if (mlx->mouse->isdown & (1 << 2))
+	{
+		mlx->cam->scale += (mlx->mouse->lasty - y) / 10.0f + 0.5f;
+		if (mlx->cam->scale < 1)
+			mlx->cam->scale = 1;
+	}
+	if (mlx->mouse->isdown)
+		render(mlx);
 	return (0);
 }

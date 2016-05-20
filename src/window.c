@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/26 05:33:42 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/19 05:12:33 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/20 14:55:08 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,11 @@ t_mlx		*mlxdel(t_mlx *mlx)
 	if (mlx->mouse != NULL)
 		ft_memdel((void **)&mlx->mouse);
 	if (mlx->image != NULL)
-	{
-		if (mlx->image->image != NULL)
-			mlx_destroy_image(mlx->mlx, mlx->image->image);
-		ft_memdel((void **)&mlx->image);
-	}
+		del_image(mlx, mlx->image);
+	if (mlx->zbuf != NULL)
+		del_zbuffer(mlx->zbuf);
 	ft_memdel((void **)&mlx);
 	return (NULL);
-}
-
-int			new_image(t_mlx *mlx)
-{
-	if ((mlx->image = ft_memalloc(sizeof(t_image))) == NULL ||
-		(mlx->image->image = mlx_new_image(mlx->mlx, WIN_WIDTH,
-			WIN_HEIGHT)) == NULL)
-		return (1);
-	mlx->image->ptr = mlx_get_data_addr(mlx->image->image, &mlx->image->bpp,
-			&mlx->image->stride, &mlx->image->endian);
-	printf("bpp: %d\nstride: %d\nendian: %d\n", mlx->image->bpp, mlx->image->stride, mlx->image->endian);
-	return (0);
 }
 
 t_mlx		*init(char *title)
@@ -56,7 +42,8 @@ t_mlx		*init(char *title)
 			WIN_HEIGHT, title)) == NULL ||
 		(mlx->cam = ft_memalloc(sizeof(t_cam))) == NULL ||
 		(mlx->mouse = ft_memalloc(sizeof(t_mouse))) == NULL ||
-		new_image(mlx))
+		(mlx->image = new_image(mlx)) == NULL ||
+		(mlx->zbuf = new_zbuffer()) == NULL)
 		return (mlxdel(mlx));
 	mlx->cam->x = 0.5;
 	mlx->cam->y = 0.5;

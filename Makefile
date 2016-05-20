@@ -6,7 +6,7 @@
 #    By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/22 23:12:10 by pbondoer          #+#    #+#              #
-#    Updated: 2016/05/20 11:37:50 by pbondoer         ###   ########.fr        #
+#    Updated: 2016/05/20 14:51:47 by pbondoer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ SRC		= main.c \
 		  matrix.c \
 		  mouse.c \
 		  image.c \
-		  lineclip.c
+		  lineclip.c \
+		  zbuffer.c \
+		  viewport.c
 
 OBJ		= $(addprefix $(OBJDIR),$(SRC:.c=.o))
 

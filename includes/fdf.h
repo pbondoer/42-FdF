@@ -6,14 +6,14 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 23:59:07 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/19 05:30:21 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/20 11:38:14 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 # define WIN_WIDTH			1280
-# define WIN_HEIGHT			600
+# define WIN_HEIGHT			720
 
 typedef struct		s_cam
 {
@@ -75,4 +75,5 @@ int					hook_mousedown(int button, int x, int y, t_mlx *mlx);
 int					hook_mouseup(int button, int x, int y, t_mlx *mlx);
 void				set_pixel(t_image *image, int x, int y, int color);
 void				clear_image(t_image *image);
+int					lineclip(t_vector *p1, t_vector *p2);
 #endif

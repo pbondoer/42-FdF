@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/26 06:06:04 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/19 06:32:01 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/05/20 12:23:30 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ int			clerp(int c1, int c2, double p)
 
 void		line(t_mlx *mlx, t_vector p1, t_vector p2)
 {
+	p1.x = (int)p1.x;
+	p2.x = (int)p2.x;
+	p1.y = (int)p1.y;
+	p2.y = (int)p2.y;
+
+	double startx = p1.x;
+	double starty = p1.y;
+
+	if (!lineclip(&p1, &p2))
+		return ;
+
 	int dx = ft_abs((int)p2.x - (int)p1.x);
 	int sx = (int)p1.x < (int)p2.x ? 1 : -1;
 	int dy = ft_abs((int)p2.y - (int)p1.y);
@@ -40,21 +51,14 @@ void		line(t_mlx *mlx, t_vector p1, t_vector p2)
 	int err = (dx > dy ? dx : -dy) / 2;
 	int e2;
 
-	double startx = p1.x;
-	double starty = p1.y;
 	double percent = 0.0f;
 
-	// temporary fix
-	p1.x = (int)p1.x;
-	p2.x = (int)p2.x;
-	p1.y = (int)p1.y;
-	p2.y = (int)p2.y;
-	
 	while ((int)p1.x != (int)p2.x || (int)p1.y != (int)p2.y)
 	{
-		if ((p1.x < 0 || p1.x >= WIN_WIDTH || p1.y < 0 || p1.y >= WIN_HEIGHT)
-			&& (p2.x < 0 || p2.x >= WIN_WIDTH || p2.y < 0 || p2.y >= WIN_HEIGHT))
-			break ;
+		//printf("draw: %f %f -> %f %f\n", p1.x, p1.y, p2.x, p2.y);
+		//if ((p1.x < 0 || p1.x >= WIN_WIDTH || p1.y < 0 || p1.y >= WIN_HEIGHT)
+		//	&& (p2.x < 0 || p2.x >= WIN_WIDTH || p2.y < 0 || p2.y >= WIN_HEIGHT))
+		//	break ;
 		percent = (dx > dy ? ft_ilerp((int)p1.x, (int)startx, (int)p2.x) : ft_ilerp((int)p1.y, (int)starty, (int)p2.y));
 		//printf("%f; %f - %f; %f === %f\n", p1.x, p1.y, p2.x, p2.y, percent);
 		//mlx_pixel_put(mlx->mlx, mlx->window, (int)p1.x, (int)p1.y, clerp(p1.color, p2.color, percent));
@@ -89,6 +93,7 @@ void		render(t_mlx *mlx)
 		y = 0;
 		while (y < map->height)
 		{
+			//printf("%d %d\n", x, y);
 			v = project_vector(vector_at(map, x, y), mlx);
 			if (x + 1 < map->width)
 				line(mlx, v, project_vector(vector_at(map, x + 1, y), mlx));

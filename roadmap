@@ -6,23 +6,19 @@ Features
 * Color interpolation
 * Mouse controls
 * Image support (for buffering)
+* Line clipping
 
 To-do soon
 -------------------------------------------------------------------------------
-* Line clipping
-* New rendering pipeline:
-  * 1 - Perform rotation, scale, translation (MOVEMENT)
-  * 2 - Line clipping to obtain only required points, with color calculation
-  * 3 - Rendering
-* FIX: differentiate between vectors and screen points in code (causes infinite
-       rendering!)
 * Z-buffer (activatable)
 * Color modes: file, height gradient, z-buffer
 * View modes: point map, wireframe, filled
+* Polygon clippping for filled mode?
 * Optional depth shader (adds z-shadow to pixels)
 * Multithreaded computing
 * Anti-alias support
 * PPM screenshoting
+* Level of detail
 
 To-do later
 -------------------------------------------------------------------------------

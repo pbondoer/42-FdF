@@ -6,7 +6,7 @@
 #    By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/22 23:12:10 by pbondoer          #+#    #+#              #
-#    Updated: 2016/05/20 14:51:47 by pbondoer         ###   ########.fr        #
+#    Updated: 2016/06/12 05:36:57 by pbondoer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,15 +20,14 @@ SRC		= main.c \
 		  draw.c \
 		  matrix.c \
 		  mouse.c \
+		  keyboard.c \
 		  image.c \
-		  lineclip.c \
-		  zbuffer.c \
-		  viewport.c
+		  lineclip.c
 
 OBJ		= $(addprefix $(OBJDIR),$(SRC:.c=.o))
 
 # compiler
-CC		= clang
+CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror -g
 
 # mlx library
@@ -63,7 +62,7 @@ $(MLX_LIB):
 	make -C $(MLX)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) $(MLX_LNK) $(FT_LNK) -o $(NAME)
+	$(CC) $(OBJ) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
 
 clean:
 	rm -rf $(OBJDIR)

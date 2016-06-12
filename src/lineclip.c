@@ -6,12 +6,11 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 07:45:40 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/20 11:55:29 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/06/12 05:30:10 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
 int		region(int x, int y)
 {
@@ -29,55 +28,55 @@ int		region(int x, int y)
 	return (c);
 }
 
+void	clip_xy(t_vector *v, t_vector *p1, t_vector *p2, int rout)
+{
+	if (rout & 1)
+	{
+		v->x = p1->x + (p2->x - p1->x) * (WIN_HEIGHT - p1->y) / (p2->y - p1->y);
+		v->y = WIN_HEIGHT - 1;
+	}
+	else if (rout & 2)
+	{
+		v->x = p1->x + (p2->x - p1->x) * -p1->y / (p2->y - p1->y);
+		v->y = 0;
+	}
+	else if (rout & 4)
+	{
+		v->x = WIN_WIDTH - 1;
+		v->y = p1->y + (p2->y - p1->y) * (WIN_WIDTH - p1->x) / (p2->x - p1->x);
+	}
+	else
+	{
+		v->x = 0;
+		v->y = p1->y + (p2->y - p1->y) * -p1->x / (p2->x - p1->x);
+	}
+}
+
 int		lineclip(t_vector *p1, t_vector *p2)
 {
-	int r1;
-	int r2;
-	int x;
-	int y;
-	int rout;
+	t_vector	v;
+	int			r1;
+	int			r2;
+	int			rout;
 
 	r1 = region(p1->x, p1->y);
 	r2 = region(p2->x, p2->y);
-	while (!(!(r1 | r2) || (r1 & r2))) // while ( ! (accept || reject) )
+	while (!(!(r1 | r2) || (r1 & r2)))
 	{
 		rout = r1 ? r1 : r2;
-		//printf("accept: %d | reject: %d | p1: %d %d | p2: %d %d | rout: %d\n", !(r1 | r2), (r1 & r2), (int)p1->x, (int)p1->y, (int)p2->x, (int)p2->y, rout);
-		if (rout & 1)
-		{
-			x = p1->x + (p2->x - p1->x) * (WIN_HEIGHT - p1->y) / (p2->y - p1->y);
-			y = WIN_HEIGHT - 1;
-		}
-		else if (rout & 2)
-		{
-			x = p1->x + (p2->x - p1->x) * -p1->y / (p2->y - p1->y);
-			y = 0;
-		}
-		else if (rout & 4)
-		{
-			x = WIN_WIDTH - 1;
-			y = p1->y + (p2->y - p1->y) * (WIN_WIDTH - p1->x) / (p2->x - p1->x);
-		}
-		else
-		{
-			x = 0;
-			y = p1->y + (p2->y - p1->y) * -p1->x / (p2->x - p1->x);
-		}
+		clip_xy(&v, p1, p2, rout);
 		if (rout == r1)
 		{
-			//printf("Point 1 clipped\n");
-			p1->x = x;
-			p1->y = y;
+			p1->x = v.x;
+			p1->y = v.y;
 			r1 = region(p1->x, p1->y);
 		}
 		else
 		{
-			//printf("Point 2 clipped\n");
-			p2->x = x;
-			p2->y = y;
+			p2->x = v.x;
+			p2->y = v.y;
 			r2 = region(p2->x, p2->y);
 		}
 	}
-	//printf("Done | p1: %f %f | p2: %f %f\n", p1->x, p1->y, p2->x, p2->y);
 	return (!(r1 | r2));
 }

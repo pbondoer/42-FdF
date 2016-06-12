@@ -6,14 +6,14 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 23:55:46 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/03/02 15:45:33 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/06/12 05:30:27 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "libft.h"
 #include "fdf.h"
-#include <stdio.h>
+#include <limits.h>
 
 static int	cleanup(t_list **lst, t_map **map)
 {
@@ -60,6 +60,34 @@ static int	get_lines(int fd, t_list **lst)
 	return (1);
 }
 
+void		find_depth(t_map *m)
+{
+	int			min;
+	int			max;
+	t_vector	v;
+	t_vector	cur;
+
+	min = INT_MAX;
+	max = INT_MIN;
+	v.y = 0;
+	while (v.y < m->height)
+	{
+		v.x = 0;
+		while (v.x < m->width)
+		{
+			cur = *m->vectors[(int)v.y * m->width + (int)v.x];
+			if (cur.z < min)
+				min = cur.z;
+			if (cur.z > max)
+				max = cur.z;
+			v.x++;
+		}
+		v.y++;
+	}
+	m->depth_min = min;
+	m->depth_max = max;
+}
+
 static int	populate_map(t_map **m, t_list *list)
 {
 	t_list	*lst;
@@ -83,6 +111,8 @@ static int	populate_map(t_map **m, t_list *list)
 		lst = lst->next;
 		y++;
 	}
+	find_depth(*m);
+	fill_colors(*m);
 	cleanup(&list, NULL);
 	return (1);
 }

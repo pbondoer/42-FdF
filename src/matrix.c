@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/26 08:04:43 by pbondoer          #+#    #+#             */
-/*   Updated: 2016/05/11 00:15:04 by pbondoer         ###   ########.fr       */
+/*   Updated: 2016/06/12 03:28:12 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 t_vector	rotate(t_vector p, t_cam *r)
 {
-	t_vector v;
-	double x;
-	double y;
-	double z;
+	t_vector	v;
+	double		x;
+	double		y;
+	double		z;
 
 	x = p.x;
 	z = p.z;
